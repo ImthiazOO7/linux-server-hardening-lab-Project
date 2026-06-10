@@ -1,0 +1,59 @@
+# Linux Server Hardening and IDS Project
+
+# Check IP Address
+ip a
+
+# Update System
+sudo apt update
+sudo apt upgrade -y
+
+# Install OpenSSH
+sudo apt install openssh-server -y
+sudo systemctl status ssh
+
+# Install UFW Firewall
+sudo apt install ufw -y
+sudo ufw allow OpenSSH
+sudo ufw enable
+sudo ufw status verbose
+
+# Install Fail2Ban
+sudo apt install fail2ban -y
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+sudo fail2ban-client status
+
+# Install Nmap
+sudo apt install nmap -y
+nmap --version
+nmap -A 192.168.234.130
+
+# Install Suricata
+sudo apt install suricata -y
+suricata --build-info | grep AF_PACKET
+
+# Configure Suricata
+sudo nano /etc/suricata/suricata.yaml
+
+# Test Suricata Configuration
+sudo suricata -T -c /etc/suricata/suricata.yaml
+
+# Start Suricata
+sudo systemctl restart suricata
+sudo systemctl status suricata
+
+# Check Suricata Logs
+sudo ls /var/log/suricata/
+sudo cat /var/log/suricata/fast.log
+
+# Check Firewall Status
+sudo ufw status verbose
+
+# Check Fail2Ban Status
+sudo fail2ban-client status
+
+# Final Verification
+hostnamectl
+ip a
+nmap -A 192.168.234.130
+sudo systemctl status suricata
